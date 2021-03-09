@@ -3,5 +3,5 @@ package com.example.appmangamvvvm.model
 import android.os.Parcelable
 
 data class MangaListMainModel(
-    var listMangas:ArrayList<MangaMainModel>
+    var listMangas:List<MangaMainModel>
 )
