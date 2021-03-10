@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit
 
 val apiModule = module {
     single { createOkHttpClient() }
-
 }
 
 private val logLevel =
