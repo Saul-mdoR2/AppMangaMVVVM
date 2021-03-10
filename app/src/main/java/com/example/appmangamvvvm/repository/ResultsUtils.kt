@@ -1,7 +1,7 @@
 package com.example.appmangamvvvm.repository
 
 fun <T> Result<T>.toPretty(): Pretty<T> {
-    return if(isSuccess) {
+    return if (isSuccess) {
         Pretty.Success(this.getOrNull()!!)
     } else {
         Pretty.Error(this.exceptionOrNull()!!)
@@ -9,7 +9,7 @@ fun <T> Result<T>.toPretty(): Pretty<T> {
 }
 
 fun Result<*>.toCompletedPretty(): CompletedPretty {
-    return if(isSuccess) {
+    return if (isSuccess) {
         CompletedPretty.Success
     } else {
         CompletedPretty.Error(this.exceptionOrNull()!!)

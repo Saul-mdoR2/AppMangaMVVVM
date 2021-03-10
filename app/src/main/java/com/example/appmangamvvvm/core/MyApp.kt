@@ -9,17 +9,17 @@ import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import timber.log.Timber
 
-class MyApp:Application() {
+class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
-        if(BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
 
         Timber.d("AppManga_TAG: onCreate: ")
 
-        startKoin{
-            if(BuildConfig.DEBUG) androidLogger(Level.ERROR)
+        startKoin {
+            if (BuildConfig.DEBUG) androidLogger(Level.ERROR)
             androidContext(this@MyApp)
             modules(repositoryModule)
         }

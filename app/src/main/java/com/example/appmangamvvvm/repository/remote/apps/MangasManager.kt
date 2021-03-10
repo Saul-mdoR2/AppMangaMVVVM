@@ -5,6 +5,6 @@ import com.example.appmangamvvvm.repository.toPretty
 
 class MangasManager(private val mangaService: MangaService) {
     suspend fun getHtmlMangas() = runCatching {
-        mangaService.getHtmlMangas()
+        mangaService.getLatestMangas()
     }.toPretty()
 }

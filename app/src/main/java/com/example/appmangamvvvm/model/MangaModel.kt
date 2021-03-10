@@ -5,9 +5,9 @@ import kotlinx.android.parcel.Parcelize
 import pl.droidsonroids.jspoon.annotation.Selector
 
 @Parcelize
-data class MangaMainModel (
+data class MangaModel(
     var image: String?,
     var title: String?,
     var latestChapter: String?,
-   var enlaceDetalles: String?
-):Parcelable
+    var detailsUrl: String?
+) : Parcelable
