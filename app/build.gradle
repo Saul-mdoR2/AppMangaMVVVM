@@ -121,6 +121,10 @@ dependencies {
 
     // Jspoon
     implementation "pl.droidsonroids:jspoon:$jspoon"
+
+    // Retrofit for Jspoon
+    implementation 'pl.droidsonroids.retrofit2:converter-jspoon:1.0.0'
+    //implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 }
 
 static def gitBranch() {
