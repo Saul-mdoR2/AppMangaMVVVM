@@ -6,7 +6,7 @@ import pl.droidsonroids.jspoon.annotation.Selector
 
 @Parcelize
 data class MangaModel(
-    var image: String?,
+    var imageUrl: String?,
     var title: String?,
     var latestChapter: String?,
     var detailsUrl: String?

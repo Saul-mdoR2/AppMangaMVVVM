@@ -1,32 +1,54 @@
 package com.example.appmangamvvvm.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.appmangamvvvm.R
-import com.example.appmangamvvvm.repository.handle
-import com.example.appmangamvvvm.repository.remote.apps.MangasManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
-import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
+import com.example.appmangamvvvm.databinding.ActivityMainBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
-    private val mangasManager by inject<MangasManager>()
+
+    private val homeViewModel by viewModel<HomeViewModel>()
+    private lateinit var layout: ActivityMainBinding
+    private lateinit var mangasAdapter: RVLatestMangasAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setBindingLatout()
+        initRecyclerView()
+        initObservers()
+        homeViewModel.getAsyncMangas()
+    }
 
-        CoroutineScope(Dispatchers.IO).launch {
-            mangasManager.getHtmlMangas().handle(
-                    error = { exception ->
-                        Timber.d("MainActivity_TAG: onCreate: onMangasCall: error: $exception")
-                    },
-                    success = { mangasResult ->
-                        Timber.d("MainActivity_TAG: onCreate: onMangasCall: ${mangasResult.size}")
-                    }
-            )
+    private fun setBindingLatout() {
+        Timber.d("MainActivity_TAG: setBinding: ")
+        layout = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        layout.lifecycleOwner = this
+        layout.viewModel = homeViewModel
+    }
+
+    private fun initRecyclerView() {
+        Timber.d("MainActivity_TAG: initRecyclerView: ")
+        mangasAdapter = RVLatestMangasAdapter { manga ->
+            Timber.d("MainActivity_TAG: initRecyclerView2: itemClicked: ${manga.title}")
         }
+        layout.rvMangaList.apply {
+            layoutManager = GridLayoutManager(this@MainActivity, 3)
+            adapter = mangasAdapter
+        }
+    }
+
+    private fun initObservers() {
+        Timber.d("MainActivity_TAG: initializeObservers: ")
+        homeViewModel.availableMangasLD.observe(this, Observer { mangas ->
+            Timber.d("MainActivity_TAG: initializeObservers: value changed: ${mangas.size}")
+            mangasAdapter.itemList = mangas.map {
+                MangaItemViewModel().apply { manga = it }
+            }
+        })
     }
 }

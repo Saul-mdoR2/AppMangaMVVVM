@@ -2,6 +2,7 @@ package com.example.appmangamvvvm.core
 
 import android.app.Application
 import com.example.appmangamvvvm.BuildConfig
+import com.example.appmangamvvvm.di.presentationModule
 import com.example.appmangamvvvm.di.repositoryModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -21,7 +22,7 @@ class MyApp : Application() {
         startKoin {
             if (BuildConfig.DEBUG) androidLogger(Level.ERROR)
             androidContext(this@MyApp)
-            modules(repositoryModule)
+            modules(repositoryModule + presentationModule)
         }
     }
 }

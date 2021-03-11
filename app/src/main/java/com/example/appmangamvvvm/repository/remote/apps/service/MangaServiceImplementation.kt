@@ -11,7 +11,7 @@ class MangaServiceImplementation(
         return retrofitMangasService.getLatestMangas().decodeResponse { response ->
             response.listMangas.map { mangaResponse ->
                 MangaModel(
-                    image = mangaResponse.imageUrl,
+                    imageUrl = mangaResponse.imageUrl,
                     title = mangaResponse.title,
                     latestChapter = mangaResponse.latestChapter,
                     detailsUrl = mangaResponse.detailsUrl
