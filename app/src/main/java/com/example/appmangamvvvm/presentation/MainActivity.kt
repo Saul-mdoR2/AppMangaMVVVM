@@ -1,5 +1,6 @@
 package com.example.appmangamvvvm.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -18,9 +19,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        homeViewModel.loading.postValue(true)
         setBindingLatout()
         initRecyclerView()
         initObservers()
+    }
+
+    override fun onResume() {
+        Timber.d("MainActivity_TAG: onResume: ")
+        super.onResume()
         homeViewModel.getAsyncMangas()
     }
 
@@ -34,7 +41,9 @@ class MainActivity : AppCompatActivity() {
     private fun initRecyclerView() {
         Timber.d("MainActivity_TAG: initRecyclerView: ")
         mangasAdapter = RVLatestMangasAdapter { manga ->
+            // AQUI SE EJECUTA LO QUE VA A PASAR CUANDO SE LE DÉ CLICK A UN ITEM DE LA LISTA.
             Timber.d("MainActivity_TAG: initRecyclerView2: itemClicked: ${manga.title}")
+            startActivity(Intent(this, MangaDetailsActivity::class.java))
         }
         layout.rvMangaList.apply {
             layoutManager = GridLayoutManager(this@MainActivity, 3)
@@ -49,6 +58,7 @@ class MainActivity : AppCompatActivity() {
             mangasAdapter.itemList = mangas.map {
                 MangaItemViewModel().apply { manga = it }
             }
+            homeViewModel.loading.postValue(false)
         })
     }
 }

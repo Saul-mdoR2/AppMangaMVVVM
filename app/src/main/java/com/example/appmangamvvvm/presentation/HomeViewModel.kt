@@ -13,6 +13,7 @@ import timber.log.Timber
 
 class HomeViewModel(private val mangasManager: MangasManager) : ViewModel() {
     var availableMangasLD = MutableLiveData<List<MangaModel>>()
+    var loading = MutableLiveData<Boolean>(true)
 
     fun getAsyncMangas() {
         CoroutineScope(Dispatchers.IO).launch {

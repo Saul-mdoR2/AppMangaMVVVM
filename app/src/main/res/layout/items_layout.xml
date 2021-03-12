@@ -32,7 +32,8 @@
                 android:layout_marginEnd="2dp"
                 android:contentDescription="@string/manga_cover"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_launcher_background" />
+                app:imageUrl = "@{viewModel.imageUrl}"
+                />
 
             <TextView
                 android:layout_width="match_parent"
