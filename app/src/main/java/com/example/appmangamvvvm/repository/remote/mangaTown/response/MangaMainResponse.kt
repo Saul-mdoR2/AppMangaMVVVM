@@ -1,4 +1,4 @@
-package com.example.appmangamvvvm.repository.remote.apps.response
+package com.example.appmangamvvvm.repository.remote.mangaTown.response
 
 import pl.droidsonroids.jspoon.annotation.Selector
 

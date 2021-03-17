@@ -3,8 +3,7 @@ package com.example.appmangamvvvm.model
 import pl.droidsonroids.jspoon.annotation.Selector
 
 data class MangaDetailsModel(
-    // Selector(".title-top")
-    var title:String?,
+    var title: String?,
     var genre: String?,
     var author: String?,
     var status: String?,
@@ -12,7 +11,7 @@ data class MangaDetailsModel(
     var type: String?,
     var imageCover: String?,
     var summary: String?,
-    var chaptersList: ArrayList<ChapterModel>?
+    var chaptersList: List<ChapterModel>?
 )
 
 data class ChapterModel(

@@ -1,11 +1,11 @@
-package com.example.appmangamvvvm.repository.remote.mangaDetails.response
+package com.example.appmangamvvvm.repository.remote.mangaTown.response
 
 import pl.droidsonroids.jspoon.annotation.Selector
 
 class MangaDetailsResponse {
 
     @Selector(".title-top")
-    var title:String? = null
+    var title: String? = null
 
     @Selector(".detail_info>ul>li:eq(4)")
     var genre: String? = null
@@ -23,13 +23,13 @@ class MangaDetailsResponse {
     var type: String? = null
 
     @Selector(value = ".detail_info>img", attr = "src")
-    var image: String? = null
+    var imageCover: String? = null
 
     @Selector("#show")
     var summary: String? = null
 
     @Selector(".chapter_list>li")
-    var listaCapitulos: List<ChapterResponse> = listOf()
+    var chaptersList: List<ChapterResponse> = listOf()
 }
 
 

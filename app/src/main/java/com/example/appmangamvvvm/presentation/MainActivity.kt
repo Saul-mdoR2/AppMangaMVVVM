@@ -17,6 +17,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var layout: ActivityMainBinding
     private lateinit var mangasAdapter: RVLatestMangasAdapter
 
+    companion object {
+        const val TAG = "com.example.simplemangaapp.activities.MainActivity"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         homeViewModel.loading.postValue(true)
@@ -43,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         mangasAdapter = RVLatestMangasAdapter { manga ->
             // AQUI SE EJECUTA LO QUE VA A PASAR CUANDO SE LE DÉ CLICK A UN ITEM DE LA LISTA.
             Timber.d("MainActivity_TAG: initRecyclerView2: itemClicked: ${manga.title}")
-            startActivity(Intent(this, MangaDetailsActivity::class.java))
+            startActivity(Intent(this, MangaDetailsActivity::class.java).putExtra(TAG, manga))
         }
         layout.rvMangaList.apply {
             layoutManager = GridLayoutManager(this@MainActivity, 3)

@@ -4,13 +4,13 @@ import androidx.lifecycle.ViewModel
 import com.example.appmangamvvvm.model.ChapterModel
 import com.example.appmangamvvvm.model.MangaDetailsModel
 
-class ChapterItemViewModel : ViewModel(){
-    val chapter:ChapterModel? = null
+class ChapterItemViewModel : ViewModel() {
+    var chapter: ChapterModel? = null
 
-    val titleChapter:String?
-    get() =  chapter?.titleChapter
+    val titleChapter: String?
+        get() = chapter?.titleChapter
 
-    val releaseDate:String?
-        get() =  chapter?.releaseDate
+    val releaseDate: String?
+        get() = chapter?.releaseDate
 
 }

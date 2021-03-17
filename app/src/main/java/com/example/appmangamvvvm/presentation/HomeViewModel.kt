@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.appmangamvvvm.model.MangaModel
 import com.example.appmangamvvvm.repository.handle
-import com.example.appmangamvvvm.repository.remote.apps.MangasManager
+import com.example.appmangamvvvm.repository.remote.mangaTown.MangasManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -17,7 +17,7 @@ class HomeViewModel(private val mangasManager: MangasManager) : ViewModel() {
 
     fun getAsyncMangas() {
         CoroutineScope(Dispatchers.IO).launch {
-            mangasManager.getHtmlMangas().handle(
+            mangasManager.getLatestMangas().handle(
                 error = { exception ->
                     Timber.d("MainActivity_TAG: onCreate: onMangasCall: error: $exception")
                 },
