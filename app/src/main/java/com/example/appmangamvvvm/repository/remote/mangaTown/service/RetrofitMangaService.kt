@@ -11,6 +11,6 @@ interface RetrofitMangaService {
     @GET(BuildConfig.GET_MANGAS_PATH)
     suspend fun getLatestMangas(): Response<MangaListMainResponse>
 
-    @GET("{linkDetails}")
-    suspend fun getMangaDetails(@Path("linkDetails") link: String): Response<MangaDetailsResponse>
+    @GET(BuildConfig.GET_MANGA_DETAILS)
+    suspend fun getMangaDetails(@Path("path") link: String): Response<MangaDetailsResponse>
 }
