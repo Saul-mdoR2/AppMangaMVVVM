@@ -6,7 +6,7 @@ import com.example.appmangamvvvm.databinding.ChaptersLayoutBinding
 import com.example.appmangamvvvm.model.ChapterModel
 import com.example.appmangamvvvm.model.MangaDetailsModel
 
-class RVListMangaChapters(listener: (ChapterModel) -> Unit) :
+class RVListMangaChaptersAdapter(listener: (ChapterModel) -> Unit) :
     BaseRVAdapter<ChapterModel, ChapterItemViewModel, ChaptersLayoutBinding>(listener) {
     override fun inflateDataBinding(
         inflater: LayoutInflater,

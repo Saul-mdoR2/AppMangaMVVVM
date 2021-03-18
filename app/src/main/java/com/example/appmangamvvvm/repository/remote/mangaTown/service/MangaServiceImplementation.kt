@@ -20,10 +20,10 @@ class MangaServiceImplementation(
         return retrofitMangaService.getLatestMangas().decodeResponse { response ->
             response.listMangas.map { mangaResponse ->
                 MangaModel(
-                    imageUrl = mangaResponse.imageUrl,
-                    title = mangaResponse.title,
-                    latestChapter = mangaResponse.latestChapter,
-                    detailsUrl = mangaResponse.detailsUrl
+                    imageUrl = mangaResponse.imageUrl ?: "",
+                    title = mangaResponse.title ?: "",
+                    latestChapter = mangaResponse.latestChapter ?: "",
+                    detailsUrl = mangaResponse.detailsUrl ?: ""
                 )
             }
                 .also {
@@ -37,19 +37,22 @@ class MangaServiceImplementation(
         return retrofitMangaService.getMangaDetails(linkDetails)
             .decodeResponse { mangaDetailsResponse ->
                 MangaDetailsModel(
-                    title = mangaDetailsResponse.title,
-                    genre = mangaDetailsResponse.genre,
-                    author = mangaDetailsResponse.author,
-                    status = mangaDetailsResponse.status,
-                    artist = mangaDetailsResponse.artist,
-                    type = mangaDetailsResponse.type,
-                    imageCover = mangaDetailsResponse.imageCover,
-                    summary = mangaDetailsResponse.summary,
+                    title = mangaDetailsResponse.title ?: "",
+                    genre = mangaDetailsResponse.genre ?: "",
+                    author = mangaDetailsResponse.author ?: "",
+                    status = mangaDetailsResponse.status ?: "",
+                    artist = mangaDetailsResponse.artist ?: "",
+                    type = mangaDetailsResponse.type ?: "",
+                    imageCover = mangaDetailsResponse.imageCover ?: "",
+                    summary = mangaDetailsResponse.summary ?: "",
                     chaptersList = mangaDetailsResponse.chaptersList.map { chapterResponse ->
                         ChapterModel(
-                            titleChapter = chapterResponse.titleChapter,
-                            releaseDate = chapterResponse.releaseDate,
-                            linkChapter = chapterResponse.linkChapter
+                            titleChapter = chapterResponse.titleChapter!!.replace(
+                                mangaDetailsResponse.title!!,
+                                "Chapter"
+                            ),
+                            releaseDate = chapterResponse.releaseDate ?: "",
+                            linkChapter = chapterResponse.linkChapter ?: ""
                         )
                     }
                 )

@@ -23,6 +23,7 @@ class MangaDetailsViewModel(private val mangaManager: MangasManager) : ViewModel
                 },
                 success = { mangaDetailsModel ->
                     Timber.d("MangaDetailsActivity_TAG: onCreate: onMangasCall: ${mangaDetailsModel.title}")
+                    mangaDetailsModel.summary = mangaDetailsModel.summary?.replace(" HIDE", "")
                     mangaDetailsLD.postValue(mangaDetailsModel)
                 }
             )
