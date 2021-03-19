@@ -1,4 +1,4 @@
-package com.example.appmangamvvvm.presentation
+package com.example.appmangamvvvm.presentation.mainLatestMangas
 
 import androidx.lifecycle.ViewModel
 import com.example.appmangamvvvm.model.MangaModel

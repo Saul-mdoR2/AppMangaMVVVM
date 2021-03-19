@@ -1,8 +1,8 @@
-package com.example.appmangamvvvm.presentation
+package com.example.appmangamvvvm.presentation.mainLatestMangas
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.appmangamvvvm.model.MangaDetailsModel
+import com.example.appmangamvvvm.model.MangaModel
 import com.example.appmangamvvvm.repository.handle
 import com.example.appmangamvvvm.repository.remote.mangaTown.MangasManager
 import kotlinx.coroutines.CoroutineScope
@@ -11,20 +11,19 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class MangaDetailsViewModel(private val mangaManager: MangasManager) : ViewModel() {
-    var mangaDetailsLD = MutableLiveData<MangaDetailsModel>()
+class HomeViewModel(private val mangasManager: MangasManager) : ViewModel() {
+    var availableMangasLD = MutableLiveData<List<MangaModel>>()
     var loading = MutableLiveData<Boolean>(true)
 
-    fun getMangaDetails(link: String) {
+    fun getAsyncMangas() {
         CoroutineScope(Dispatchers.IO).launch {
-            mangaManager.getMangaDetails(link).handle(
+            mangasManager.getLatestMangas().handle(
                 error = { exception ->
                     Timber.d("MainActivity_TAG: onCreate: onMangasCall: error: $exception")
                 },
-                success = { mangaDetailsModel ->
-                    Timber.d("MangaDetailsActivity_TAG: onCreate: onMangasCall: ${mangaDetailsModel.title}")
-                    mangaDetailsModel.summary = mangaDetailsModel.summary?.replace(" HIDE", "")
-                    mangaDetailsLD.postValue(mangaDetailsModel)
+                success = { mangasResult ->
+                    Timber.d("MainActivity_TAG: onCreate: onMangasCall: ${mangasResult.size}")
+                    availableMangasLD.postValue(mangasResult)
                 }
             )
         }

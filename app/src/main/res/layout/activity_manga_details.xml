@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presentation.MangaDetailsActivity">
+    tools:context=".presentation.mangaDetails.MangaDetailsActivity">
 
     <data>
 
         <variable
             name="viewModel"
-            type="com.example.appmangamvvvm.presentation.MangaDetailsViewModel" />
+            type="com.example.appmangamvvvm.presentation.mangaDetails.MangaDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

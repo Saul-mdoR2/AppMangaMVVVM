@@ -1,4 +1,4 @@
-package com.example.appmangamvvvm.presentation
+package com.example.appmangamvvvm.presentation.mainLatestMangas
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.appmangamvvvm.R
 import com.example.appmangamvvvm.databinding.ActivityMainBinding
+import com.example.appmangamvvvm.presentation.mangaDetails.MangaDetailsActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mangasAdapter: RVLatestMangasAdapter
 
     companion object {
-        const val TAG = "com.example.simplemangaapp.activities.MainActivity"
+        const val TAG = "com.example.appmangamvvm.presentation.MainActivity"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,11 +45,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         Timber.d("MainActivity_TAG: initRecyclerView: ")
-        mangasAdapter = RVLatestMangasAdapter { manga ->
-            // AQUI SE EJECUTA LO QUE VA A PASAR CUANDO SE LE DÉ CLICK A UN ITEM DE LA LISTA.
-            Timber.d("MainActivity_TAG: initRecyclerView2: itemClicked: ${manga.title}")
-            startActivity(Intent(this, MangaDetailsActivity::class.java).putExtra(TAG, manga))
-        }
+        mangasAdapter =
+            RVLatestMangasAdapter { manga ->
+                Timber.d("MainActivity_TAG: initRecyclerView: itemClicked: ${manga.title}")
+                startActivity(
+                    Intent(
+                        this,
+                        MangaDetailsActivity::class.java
+                    ).putExtra(
+                        TAG,
+                        manga
+                    )
+                )
+            }
         layout.rvMangaList.apply {
             layoutManager = GridLayoutManager(this@MainActivity, 3)
             adapter = mangasAdapter
@@ -60,7 +69,8 @@ class MainActivity : AppCompatActivity() {
         homeViewModel.availableMangasLD.observe(this, Observer { mangas ->
             Timber.d("MainActivity_TAG: initializeObservers: value changed: ${mangas.size}")
             mangasAdapter.itemList = mangas.map {
-                MangaItemViewModel().apply { manga = it }
+                MangaItemViewModel()
+                    .apply { manga = it }
             }
             homeViewModel.loading.postValue(false)
         })

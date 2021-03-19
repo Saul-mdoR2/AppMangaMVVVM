@@ -11,4 +11,8 @@ class MangasManager(private val mangaService: MangaService) {
     suspend fun getMangaDetails(link: String) = runCatching {
         mangaService.getMangaDetails(link)
     }.toPretty()
+
+    suspend fun getMangaChapter(link: String) = runCatching{
+        mangaService.getMangaChapter(link)
+    }.toPretty()
 }

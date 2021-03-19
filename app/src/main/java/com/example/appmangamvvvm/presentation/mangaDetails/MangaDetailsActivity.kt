@@ -1,5 +1,6 @@
-package com.example.appmangamvvvm.presentation
+package com.example.appmangamvvvm.presentation.mangaDetails
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -9,6 +10,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.appmangamvvvm.R
 import com.example.appmangamvvvm.databinding.ActivityMangaDetailsBinding
 import com.example.appmangamvvvm.model.MangaModel
+import com.example.appmangamvvvm.presentation.mainLatestMangas.MainActivity
+import com.example.appmangamvvvm.presentation.mangaChapterViewer.MangaChapterViewer
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -30,6 +33,10 @@ class MangaDetailsActivity : AppCompatActivity() {
         initRecyclerView()
     }
 
+    companion object {
+        const val TAG = "com.example.appmangamvvm.presentation.MangaDetailsActivity"
+    }
+
     override fun onResume() {
         Timber.d("MangaDetailsActivity_TAG: onResume: ")
         super.onResume()
@@ -37,23 +44,22 @@ class MangaDetailsActivity : AppCompatActivity() {
     }
 
     private fun setBindingLatout() {
-        Timber.d("MainActivity_TAG: setBinding: ")
+        Timber.d("MangaDetailsActivity_TAG: setBinding: ")
         layout = DataBindingUtil.setContentView(this, R.layout.activity_manga_details)
         layout.lifecycleOwner = this
         layout.viewModel = mangaDetailsViewModel
     }
 
     private fun initRecyclerView() {
-        Timber.d("MainActivity_TAG: initRecyclerView: ")
-        rvChaptersAdapter = RVListMangaChaptersAdapter { chapter ->
-            Timber.d("MainActivity_TAG: initRecyclerView2: itemClicked: ${chapter.titleChapter}")
+        Timber.d("MangaDetailsActivity_TAG: initRecyclerView: ")
+        rvChaptersAdapter =
+            RVListMangaChaptersAdapter { chapter ->
+                Timber.d("MangaDetailsActivity_TAG: initRecyclerView: itemClicked: ${chapter.titleChapter}")
 
-            // ABRIR SIGUIENTE ACTIVIDAD
-            //  startActivity(Intent(this, MangaDetailsActivity::class.java))
-            Toast.makeText(this@MangaDetailsActivity, chapter.titleChapter, Toast.LENGTH_SHORT)
-                .show()
-
-        }
+                val intent = Intent(this, MangaChapterViewer::class.java)
+                intent.putExtra(TAG, chapter)
+                startActivity(intent)
+            }
         layout.rvChapters.apply {
             layoutManager = GridLayoutManager(this@MangaDetailsActivity, 4)
             adapter = rvChaptersAdapter
@@ -69,11 +75,11 @@ class MangaDetailsActivity : AppCompatActivity() {
                     this,
                     "${mangaDetailsModel?.title} it's not available in MangaTown",
                     Toast.LENGTH_LONG
-                )
-                    .show()
+                ).show()
             }
             rvChaptersAdapter.itemList = mangaDetailsModel.chaptersList!!.map {
-                ChapterItemViewModel().apply { chapter = it }
+                ChapterItemViewModel()
+                    .apply { chapter = it }
             }
             mangaDetailsViewModel.loading.postValue(false)
         })

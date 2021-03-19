@@ -14,8 +14,9 @@
         android:theme="@style/Theme.AppMangaMVVVM"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
-        <activity android:name=".presentation.MangaDetailsActivity" />
-        <activity android:name=".presentation.MainActivity">
+        <activity android:name=".presentation.mangaChapterViewer.MangaChapterViewer" />
+        <activity android:name=".presentation.mangaDetails.MangaDetailsActivity" />
+        <activity android:name=".presentation.mainLatestMangas.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

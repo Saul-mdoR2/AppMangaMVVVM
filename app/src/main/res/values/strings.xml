@@ -2,4 +2,6 @@
     <string name="image_manga">Image Manga</string>
     <string name="titleMain">Latest Manga Releases</string>
     <string name="manga_cover">Manga Cover</string>
+    <string name="manga_page">Manga Page</string>
+    <string name="CurrentPage">%1$s / %2$s</string>
 </resources>

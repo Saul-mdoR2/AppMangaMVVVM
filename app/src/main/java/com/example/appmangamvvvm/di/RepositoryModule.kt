@@ -17,21 +17,21 @@ val apiModule = module {
 }
 
 private val logLevel =
-        if (!BuildConfig.DEBUG) HttpLoggingInterceptor.Level.NONE
-        else HttpLoggingInterceptor.Level.BODY
+    if (!BuildConfig.DEBUG) HttpLoggingInterceptor.Level.NONE
+    else HttpLoggingInterceptor.Level.BODY
 
 fun createOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(HttpLoggingInterceptor().apply { level = logLevel })
-        .readTimeout(120, TimeUnit.SECONDS)
-        .build()
+    .addInterceptor(HttpLoggingInterceptor().apply { level = logLevel })
+    .readTimeout(120, TimeUnit.SECONDS)
+    .build()
 
 inline fun <reified T> createRetrofitWebService(okHttpClient: OkHttpClient, url: String): T =
-        Retrofit.Builder()
-                .baseUrl(url)
-                .client(okHttpClient)
-                .addConverterFactory(JspoonConverterFactory.create())
-                .build()
-                .create(T::class.java)
+    Retrofit.Builder()
+        .baseUrl(url)
+        .client(okHttpClient)
+        .addConverterFactory(JspoonConverterFactory.create())
+        .build()
+        .create(T::class.java)
 
 
 val mangasModule = module {

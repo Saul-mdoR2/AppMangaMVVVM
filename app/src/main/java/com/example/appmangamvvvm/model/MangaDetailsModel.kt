@@ -1,6 +1,7 @@
 package com.example.appmangamvvvm.model
 
-import pl.droidsonroids.jspoon.annotation.Selector
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
 data class MangaDetailsModel(
     var title: String?,
@@ -11,11 +12,12 @@ data class MangaDetailsModel(
     var type: String?,
     var imageCover: String?,
     var summary: String?,
-    var chaptersList: List<ChapterModel>?
+    var chaptersList: List<ListChapterModel>?
 )
 
-data class ChapterModel(
+@Parcelize
+data class ListChapterModel(
     var titleChapter: String?,
     var releaseDate: String?,
     var linkChapter: String?
-)
+) : Parcelable

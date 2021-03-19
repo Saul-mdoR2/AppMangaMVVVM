@@ -1,11 +1,10 @@
-package com.example.appmangamvvvm.presentation
+package com.example.appmangamvvvm.presentation.mangaDetails
 
 import androidx.lifecycle.ViewModel
-import com.example.appmangamvvvm.model.ChapterModel
-import com.example.appmangamvvvm.model.MangaDetailsModel
+import com.example.appmangamvvvm.model.ListChapterModel
 
 class ChapterItemViewModel : ViewModel() {
-    var chapter: ChapterModel? = null
+    var chapter: ListChapterModel? = null
 
     val titleChapter: String?
         get() = chapter?.titleChapter

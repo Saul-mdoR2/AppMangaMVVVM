@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.appmangamvvvm.presentation.MangaItemViewModel" />
+            type="com.example.appmangamvvvm.presentation.mainLatestMangas.MangaItemViewModel" />
     </data>
 
 
