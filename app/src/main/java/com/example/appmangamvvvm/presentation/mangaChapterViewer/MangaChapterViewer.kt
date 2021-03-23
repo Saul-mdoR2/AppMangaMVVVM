@@ -64,9 +64,9 @@ class MangaChapterViewer : AppCompatActivity() {
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
                 Timber.d("MangaChapterViewer_TAG: onKeyDown: vol down")
                 val url = if (mangaChapterPagesModel!!.previousPage!!.contains("html")) {
-                    mangaChapter!!.linkChapter + mangaChapterPagesModel!!.previousPage  // CUANDO ES UNA PAGINA NORMAL, POR EJEMPLO: LINKCHAPTER (/manga/seifuku_aventure_chemical_reaction_of_high_school_students/c023/) + PAGINAANTERIOR(2.html)
+                    mangaChapter!!.linkChapter + mangaChapterPagesModel!!.previousPage
                 } else {
-                    "http://www.mangatown.com${mangaChapterPagesModel!!.previousPage!!}" // CUANDO ESTA EN LA PAGINA PRINCIPAL, POR EJEMPLO: /manga/seifuku_aventure_chemical_reaction_of_high_school_students/c023/
+                    mangaChapterPagesModel!!.previousPage!!
                 }
                 chapterViewerViewModel.getChapter(url)
                 return true
@@ -76,6 +76,7 @@ class MangaChapterViewer : AppCompatActivity() {
                 val url = mangaChapter!!.linkChapter + mangaChapterPagesModel!!.nextPage
                 if (mangaChapterPagesModel!!.nextPage!!.contains("featured")) {
                     Toast.makeText(this, "The chapter is over", Toast.LENGTH_SHORT).show()
+                    chapterViewerViewModel.loading.postValue(false)
                     return true
                 }
                 chapterViewerViewModel.getChapter(url)
