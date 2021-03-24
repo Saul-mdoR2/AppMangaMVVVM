@@ -1,6 +1,7 @@
 package com.example.appmangamvvvm.presentation.mainLatestMangas
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         setBindingLatout()
         initRecyclerView()
         initObservers()
+        initToolbar()
     }
 
     override fun onResume() {
@@ -74,5 +76,11 @@ class MainActivity : AppCompatActivity() {
             }
             homeViewModel.loading.postValue(false)
         })
+    }
+
+    private fun initToolbar() {
+        layout.mainToolbar.setTitleTextColor(Color.WHITE)
+        layout.mainToolbar.title = resources.getString(R.string.title_toolbarMainPage)
+        setSupportActionBar(layout.mainToolbar)
     }
 }

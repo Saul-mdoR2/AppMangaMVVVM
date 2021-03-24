@@ -1,6 +1,7 @@
 package com.example.appmangamvvvm.presentation.mangaDetails
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -9,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.appmangamvvvm.R
 import com.example.appmangamvvvm.databinding.ActivityMangaDetailsBinding
+import com.example.appmangamvvvm.model.ListChapterModel
 import com.example.appmangamvvvm.model.MangaModel
 import com.example.appmangamvvvm.presentation.mainLatestMangas.MainActivity
 import com.example.appmangamvvvm.presentation.mangaChapterViewer.MangaChapterViewer
@@ -31,10 +33,12 @@ class MangaDetailsActivity : AppCompatActivity() {
         setBindingLatout()
         initObservers()
         initRecyclerView()
+        initToolbar()
     }
 
     companion object {
         const val TAG = "com.example.appmangamvvm.presentation.MangaDetailsActivity"
+        var chaptersList = listOf<ListChapterModel>()
     }
 
     override fun onResume() {
@@ -76,6 +80,8 @@ class MangaDetailsActivity : AppCompatActivity() {
                     "${mangaDetailsModel?.title} it's not available in MangaTown",
                     Toast.LENGTH_LONG
                 ).show()
+            } else {
+                chaptersList = mangaDetailsModel.chaptersList!!
             }
             rvChaptersAdapter.itemList = mangaDetailsModel.chaptersList!!.map {
                 ChapterItemViewModel()
@@ -83,5 +89,16 @@ class MangaDetailsActivity : AppCompatActivity() {
             }
             mangaDetailsViewModel.loading.postValue(false)
         })
+    }
+
+    private fun initToolbar() {
+        layout.detailsToolbar.title = manga?.title
+        layout.detailsToolbar.setTitleTextColor(Color.WHITE)
+        setSupportActionBar(layout.detailsToolbar)
+        layout.detailsToolbar.setNavigationOnClickListener {
+            finish()
+        }
+        val actionbar = supportActionBar
+        actionbar?.setDisplayHomeAsUpEnabled(true)
     }
 }

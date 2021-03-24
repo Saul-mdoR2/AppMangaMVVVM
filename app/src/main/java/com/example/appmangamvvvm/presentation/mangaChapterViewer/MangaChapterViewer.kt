@@ -1,8 +1,12 @@
 package com.example.appmangamvvvm.presentation.mangaChapterViewer
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -19,6 +23,7 @@ class MangaChapterViewer : AppCompatActivity() {
     private lateinit var layout: ActivityMangaChapterViewerBinding
     private val chapterViewerViewModel by viewModel<ViewerViewModel>()
     private var mangaChapter: ListChapterModel? = null
+    private var mangaChapterPagesModelActual: MangaChapterPagesModel? = null
     private var mangaChapterPagesModel: MangaChapterPagesModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +32,66 @@ class MangaChapterViewer : AppCompatActivity() {
         mangaChapter = intent.getParcelableExtra(MangaDetailsActivity.TAG)!!
         setBindingLatout()
         initObservers()
+
+        if (layout.spListPages.onItemSelectedListener == null) {
+            layout.spListPages.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        when (parent) {
+                            layout.spListPages -> {
+                                val elementSelected =
+                                    mangaChapterPagesModel?.listPages!!.first { pagesModel ->
+                                        pagesModel.numPage == parent.getItemAtPosition(position)
+                                    }
+                                if (mangaChapterPagesModel!!.currentPage != elementSelected.numPage) {
+                                    chapterViewerViewModel.getChapter(elementSelected.linkPage!!)
+                                }
+                            }
+                        }
+                    }
+                }
+        }
+
+        if (layout.spListChapters.onItemSelectedListener == null) {
+
+            layout.spListChapters.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        when (parent) {
+                            layout.spListChapters -> {
+                                val elementSelected =
+                                    MangaDetailsActivity.chaptersList.first { listChapterModel ->
+                                        listChapterModel.titleChapter == parent.getItemAtPosition(
+                                            position
+                                        )
+                                    }
+
+                                if (mangaChapter!!.titleChapter != elementSelected.titleChapter) {
+                                    mangaChapter = elementSelected
+                                    layout.readerToolbar.title = elementSelected.titleChapter
+                                    chapterViewerViewModel.getChapter("${elementSelected.linkChapter}")
+                                }
+                            }
+                        }
+                    }
+                }
+        }
+
+        initToolbar()
     }
 
     override fun onResume() {
@@ -54,6 +119,7 @@ class MangaChapterViewer : AppCompatActivity() {
                 totalPages.toString()
             )
             mangaChapterPagesModel = mangaChapter
+            initSpinners()
             chapterViewerViewModel.loading.postValue(false)
         })
     }
@@ -62,7 +128,7 @@ class MangaChapterViewer : AppCompatActivity() {
         chapterViewerViewModel.loading.postValue(true)
         when (keyCode) {
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
-                Timber.d("MangaChapterViewer_TAG: onKeyDown: vol down")
+                Timber.d("MangaChapterViewer_TAG: onKeyDown: vol down - previous page")
                 val url = if (mangaChapterPagesModel!!.previousPage!!.contains("html")) {
                     mangaChapter!!.linkChapter + mangaChapterPagesModel!!.previousPage
                 } else {
@@ -72,7 +138,7 @@ class MangaChapterViewer : AppCompatActivity() {
                 return true
             }
             KeyEvent.KEYCODE_VOLUME_UP -> {
-                Timber.d("MangaChapterViewer_TAG: onKeyDown: vol up")
+                Timber.d("MangaChapterViewer_TAG: onKeyDown: vol up - next page")
                 val url = mangaChapter!!.linkChapter + mangaChapterPagesModel!!.nextPage
                 if (mangaChapterPagesModel!!.nextPage!!.contains("featured")) {
                     Toast.makeText(this, "The chapter is over", Toast.LENGTH_SHORT).show()
@@ -87,4 +153,40 @@ class MangaChapterViewer : AppCompatActivity() {
         chapterViewerViewModel.loading.postValue(false)
         return super.onKeyDown(keyCode, event)
     }
+
+    private fun initSpinners() {
+        val numPages: ArrayList<String> = arrayListOf()
+        for (page in mangaChapterPagesModel?.listPages!!) {
+            numPages.add(page.numPage!!)
+        }
+        numPages.removeAt(numPages.count() - 1)
+        val adapterPages = ArrayAdapter(applicationContext, R.layout.spinner_layout, numPages)
+        layout.spListPages.adapter = adapterPages
+        val positionPage = mangaChapterPagesModel?.currentPage!!.toInt() - 1
+        layout.spListPages.post { layout.spListPages.setSelection(positionPage) }
+
+        if (mangaChapterPagesModelActual != mangaChapterPagesModel) {
+            val titlesChapter: ArrayList<String> = arrayListOf()
+            for (chapter in MangaDetailsActivity.chaptersList) {
+                titlesChapter.add(chapter.titleChapter!!)
+            }
+            val adapterChapters =
+                ArrayAdapter(applicationContext, R.layout.spinner_layout, titlesChapter)
+            layout.spListChapters.adapter = adapterChapters
+            val positionChapter: Int = adapterChapters.getPosition(mangaChapter!!.titleChapter)
+            layout.spListChapters.post { layout.spListChapters.setSelection(positionChapter) }
+        }
+    }
+
+    private fun initToolbar() {
+        layout.readerToolbar.title = mangaChapter?.titleChapter
+        layout.readerToolbar.setTitleTextColor(Color.WHITE)
+        setSupportActionBar(layout.readerToolbar)
+        layout.readerToolbar.setNavigationOnClickListener {
+            finish()
+        }
+        val actionbar = supportActionBar
+        actionbar?.setDisplayHomeAsUpEnabled(true)
+    }
+
 }

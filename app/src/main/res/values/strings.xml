@@ -4,4 +4,5 @@
     <string name="manga_cover">Manga Cover</string>
     <string name="manga_page">Manga Page</string>
     <string name="CurrentPage">%1$s / %2$s</string>
+    <string name="title_toolbarMainPage">Manga Geek</string>
 </resources>
