@@ -19,7 +19,7 @@ class ViewerViewModel(private val mangaManager: MangasManager) : ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             mangaManager.getMangaChapter(link).handle(
                 error = { exception ->
-                    Timber.d("MangaChapterViewer: onCreate: onMangasCall: error: $exception") // REGRESA UN ERROR PERO SI SE TRAE EL HTML
+                    Timber.d("MangaChapterViewer: onCreate: onMangasCall: error: $exception")
                 },
                 success = { mangaChapterModel ->
                     Timber.d("MangaChapterViewer: onCreate: onMangasCall: ${mangaChapterModel.currentPage}")
